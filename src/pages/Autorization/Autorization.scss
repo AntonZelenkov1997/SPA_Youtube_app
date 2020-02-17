@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+* {
+  box-sizing: border-box;
+  &::before {
+    box-sizing: border-box;
+  }
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: inherit;
+  margin: 0;
+}
+
+#root {
+  height: inherit;
+  .page {
+    height: inherit;
+    .layout {
+      height: inherit;
+      .content {
+        height: inherit;
+        .row-first {
+          height: 140px;
+        }
+        .row-third {
+          height: 140px;
+          background: #f0f2f5;
+          .column-first {
+            height: 140px;
+          }
+        }
+        .row-second {
+          text-align: center;
+          .column-second {
+            display: flex;
+            justify-content: center;
+          }
+          .container {
+            background-color: #ffffff;
+            border-radius: 5px;
+            border: 1px solid rgba(39, 39, 39, 0.1);    
+            width: 510px;
+            height: 520px;
+            .form-autorization {
+              padding: 40px 80px 60px;
+              .form-autorization__logo {
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;                
+              }
+              .form-autorization__title {
+                margin: 0;
+                .title {
+                  color: #000000;
+                  font-family: 'Roboto', sans-serif;
+                  font-style: normal;
+                  font-weight: 700;
+                  font-size: 18px;
+                  line-height: 28px;
+                }
+              }
+              .form-autorization__username {
+                text-align: left;
+                .username__label {
+                  color: rgba(23, 23, 25, 0.3);
+                  font-family: Roboto;
+                  font-style: normal;
+                  font-weight: normal;
+                  font-size: 16px;
+                  line-height: 22px;
+                }
+                .username__input {
+                  height: 48px;
+                  border-radius: 5px;
+                  font-family: Roboto;
+                  font-style: normal;
+                  font-weight: normal;
+                  font-size: 20px !important;
+                  line-height: 24px;
+                  &:focus {
+                    background: rgba(197, 228, 249, 0.3);
+                  }
+                }
+                .username__input_focused {
+                  background-color: rgba(197, 228, 249, 0.3);
+                }
+              }
+              .form-autorization__password {
+                margin-bottom: 40px;
+                text-align: left;
+                .password__label {
+                  color: rgba(23, 23, 25, 0.3);
+                  font-family: Roboto;
+                  font-style: normal;
+                  font-weight: normal;
+                  font-size: 16px;
+                  line-height: 22px;
+                }
+                .password__input {
+                  input {
+                    width: 100%;
+                    min-width: 250px;
+                    height: 48px;
+                    border-radius: 5px;
+                    color: #272727;
+                    font-family: Roboto;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 20px;
+                    line-height: 24px;
+                    
+                    &:focus {
+                      background: rgba(197, 228, 249, 0.3);
+                    }
+                  }
+                  
+                }
+                .icon {
+                    z-index: 2;
+                    font-size: 24px;
+                    opacity: .5;
+                    &:focus {
+                      color: #1390E5;
+                    }
+                  }
+                  .icon_active {
+                    z-index: 2;
+                    font-size: 24px;
+                    opacity: .5;
+                    &:focus {
+                      color: #1390E5;
+                    }
+                  }
+                // .password__input_focused {
+                //   .ant-input {
+                //     background: rgba(197, 228, 249, 0.3);
+                //   }
+                // }
+              }
+              .form-autorization__submit {
+                .submit__button {
+                  width: 176px;
+                  height: 52px;
+                  font-size: 20px;
+                  line-height: 24px;
+                  font-family: Roboto;
+                  font-style: normal;
+                  font-weight: normal;
+                }
+              }
+
+            }
+          }
+        }
+      }
+    }
+  }
+}

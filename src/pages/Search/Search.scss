@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|Roboto&display=swap');
+
+* {
+  box-sizing: border-box;
+  &::before {
+    box-sizing: border-box;
+  }
+  &::after {
+    box-sizing: border-box;
+  }
+}
+
+html {
+  // scroll-behavior: smooth;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  height: inherit;
+  width: inherit;
+  background: #FAFAFA;
+}
+
+/////////////////////////////////////////////////////////// CONTENT /////////////////////////////////////////////////////////////////////
+.content {
+  height: calc(100% - 80px);
+  .container {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 0 3rem;
+    flex-wrap: nowrap;
+    .searchForm {
+      width: 90%;
+      max-width: 686px;
+      display: flex;
+      flex-flow: column nowrap;
+      margin: 200px 0;
+      .searchForm__title {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 36px;
+        line-height: 52px;
+        color: #000000;
+        margin-bottom: 40px;
+        text-align: center;
+      }
+      .searchForm__input {
+        span {
+          input {
+            &:focus {
+              background: rgba(197, 228, 249, 0.3);
+            }
+          }
+          span {
+            width: 25%;
+            button {
+              width: 100%;
+              span {
+                width: auto;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.rowFirst {
+  padding-top: 40px;
+  .columnSecond {
+    .topBlock {
+      display: flex;
+      flex-flow: column wrap;
+      .topBlock__title {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 28px;
+        line-height: 40px;
+      }
+      .topBlock__input {
+        span {
+          .ant-input-affix-wrapper {
+            input {       
+              &:focus {
+                background: rgba(197, 228, 249, 0.3);
+              }
+            }
+            .ant-input-suffix {
+              .iconHeart  {
+                color: #1890ff;
+                font-size: 24px;
+                cursor: pointer;
+              }
+            }
+          }
+          .ant-input-group-addon {
+            width: 20%;
+            button {
+              width: 100%;
+              span {
+                width: auto;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.rowSecond {
+  padding-top: 40px;
+  .colSecond {
+    .topBlock {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      .topBlock__title {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        margin: 0;
+        span {
+          opacity: .5;
+        }
+      }
+      .topBlock__filterPanel {
+        color: #272727;
+      }
+      .filterPanel {
+        display: flex;
+        .filterPanel__bars {
+          font-size: 24px;
+          margin-right: 18px;
+          opacity: 0.3;
+          transition: opacity .2s linear;
+          cursor: pointer;
+        }
+        .filterPanel__bars_active {
+          opacity: 1;
+        }
+        .filterPanel__appstore {
+          font-size: 24px;
+          opacity: 0.3;
+          transition: opacity .2s linear;
+          cursor: pointer;
+        }
+        .filterPanel__appstore_active {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.container {
+  .row {
+    margin: 0 0 20px 0 !important;
+    :nth-child(2) {
+      padding-left: 0px !important;
+    }
+    :nth-child(5) {
+      padding-right: 0px !important;
+    }
+    .column {
+      .wrapper {
+        display: flex;
+        flex-flow: column wrap;
+        height: 100%;
+        width: 100%;
+        .wrapper__img {
+          height: 138px;
+          width: 100%;
+        }
+        .wrapper__title {
+          margin-top: 8px;
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: 700;
+          font-size: 14px;
+          line-height: 16px;
+        }
+        .wrapper__channelTitle {
+          margin: 0;
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 16px;
+          opacity: .5;
+        }
+        .wrapper__statistics {
+          margin: 0;
+          font-family: Roboto;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 16px;
+          opacity: .5;
+        }
+      }
+    }
+  }
+}
+
+////////////////////////////////////////////////////      MODAL WINDOW       /////////////////////////////////////////////////////////////
+
+.modalWindow {
+  @mixin modalTitles {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  @mixin modalInputs {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+    height: 40px;
+  }
+
+  .ant-modal-body {
+    padding: 36px 40px 15px;
+  }
+  .form {
+    .form__nameBlock {
+      .nameBlock__title {
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .form__queryBlock {
+      .queryBlock__title {
+        @include modalTitles;
+      }
+      .queryBlock__input {
+        @include modalInputs
+      }
+    }
+
+    .form__nameOfQueryBlock {
+      .nameOfQueryBlock__title {
+        @include modalTitles;
+      }
+      .nameOfQueryBlock__input {
+        @include modalInputs
+      }
+    }
+
+    .form__typeOfSortBlock {
+      .typeOfSortBlock__title {
+        @include modalTitles;
+      }
+      .typeOfSortBlock__input {
+        @include modalInputs;
+      }
+    }
+    .form__countOfVideosBlock {
+      .countOfVideosBlock__title {
+        @include modalTitles;
+      }
+      .row {
+        .columnSecond {
+          .inputNumber {
+            width: 82%;
+          }
+        }
+      }
+    }
+    .form__footer {
+      @mixin button {
+        width: 100%;
+        height: 52px;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 20px;
+        line-height: 24px;
+      }
+      .row {
+        height: 52px;
+        .columnFirst {
+          .cancelButton {
+            @include button;
+          }
+        }
+        .columnSecond {
+          .saveButton {
+            @include button;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+////////////////////////////////////////////////// POPOVER FROM FAVORITES //////////////////////////////////////////////////////////////
+
+@mixin popover {
+  font-family: 'PT Sans', sans-serif !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+}
+
+.ant-popover-inner {
+  width: 220px;
+}
+
+.popoverTitle {
+  @include popover;
+  color: #000;
+}
+
+.popoverLink {
+  @include popover;
+  color: #1390E5 !important;
+}
+
+
+///////////////////////////////////////////////////// VIDEOS COMPONENT LIST //////////////////////////////////////////////////////////////
+
+@mixin info {
+  font-family: Roboto, sans-serif;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.containerVideosList {
+  :nth-child(1) {
+    margin-top: 0px !important;
+  }
+
+  .rowList {
+    margin-top: 32px;
+    .columnList {
+      .wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: stretch;
+        .wrapper__img {
+          width: 157px;
+          height: 100%;
+        }
+        .wrapper__info {
+          margin-left: 20px;
+          display: flex;
+          justify-content: space-between;
+          flex-flow: column wrap;
+          align-items: stretch;
+          .info__title {
+            font-weight: 700;
+            @include info;
+          }
+          div {
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: flex-start;
+            .info__channelTitle {
+              margin: 0;
+              @include info;
+              opacity: 0.3;
+            }
+            .info__statistics {
+              margin: 0;
+              @include info;
+              opacity: 0.3;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/////////////////////////////////////////////// FOOTER ////////////////////////////////////////////////////////////////////////////////
+
+.ant-layout-footer {
+  background-color: #FAFAFA;
+  height: 7%;
+}
