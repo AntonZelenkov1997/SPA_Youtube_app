@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Layout, Input } from 'antd';
 import { ConnectorProps } from '../../../models/types';
 import connector from '../../../store/actions';
-import asyncActionGetSearchAndStatistics from '../../../store/actionsThunk';
+import { asyncActionGetSearchAndStatistics } from '../../../store/actionsThunk';
 import store from '../../../store/store';
 
 const { Content } = Layout;

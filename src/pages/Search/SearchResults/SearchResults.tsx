@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Row, Col, Input, Typography, Icon, Popover, Layout } from 'antd';
 import { Link } from 'react-router-dom';
+import { asyncActionGetSearchAndStatistics } from '../../../store/actionsThunk';
 import VideosComponentGrid from './VideosComponent/VideosComponent';
 import connector from '../../../store/actions';
 import { ConnectorProps } from '../../../models/types';
@@ -68,8 +69,13 @@ const SearchResults: FC<ConnectorProps> = ({ totalResults, q }) => {
 										/>
 									</Popover>
 								}
-								onSearch={() => {
-									console.log(store.getState());
+								onSearch={(q) => {
+									store
+										.dispatch(asyncActionGetSearchAndStatistics(q))
+										.then((resolve: any) => {
+											console.log('Ураааа, промис сработал:', resolve);
+										})
+										.catch((err: any) => console.log('Что-то пошло не так,', err));
 								}}
 							/>
 						</div>

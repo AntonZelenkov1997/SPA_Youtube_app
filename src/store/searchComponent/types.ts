@@ -6,9 +6,9 @@ export interface IVideos {
 }
 
 export interface IInitialStateSearch {
-  q: string | null,
-  totalResults: number | null,
-  videos: Array<IVideos> | null,
+	q: string | null;
+	totalResults: number | null;
+	videos: Array<IVideos> | null;
 }
 
 export type actionSaveSearchQueryType = {

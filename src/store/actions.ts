@@ -3,7 +3,7 @@ import { IInitialStateSearch } from './searchComponent/types';
 import actionSaveSearchQuery from "./searchComponent/actions";
 import { IInitialStateStatistics } from './youtubeStatistics/types';
 import actionGetVideoStatistics from './youtubeStatistics/actions';
-import actionSaveFavorites from './favorites/actions';
+import { actionSaveFavorites, actionDeleteFavorites, actionEditFavorites } from './favorites/actions';
 
 interface IState {
   saveSearch: IInitialStateSearch,
@@ -23,6 +23,8 @@ const mapDispatchToProps: any = {
 	actionSaveSearchQuery,
 	actionGetVideoStatistics,
 	actionSaveFavorites,
+	actionEditFavorites,
+	actionDeleteFavorites,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

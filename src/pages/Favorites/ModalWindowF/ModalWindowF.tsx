@@ -1,92 +1,95 @@
-import React, { FC, useState, useRef, useEffect } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import { Modal, Form, Typography, Input, Select, Row, Col, Slider, InputNumber, Button } from 'antd';
-import connector from '../../../../store/actions';
-import { ConnectorProps } from '../../../../models/types';
-import store from '../../../../store/store';
+import useForceUpdate from 'use-force-update';
+import connector from '../../../store/actions';
+import store from '../../../store/store';
 
 const { Item } = Form;
 const { Title } = Typography;
 const { Option } = Select;
 
-interface IModalWindow {
-  visibleModal: {
-    visible: boolean,
-		clicked: boolean,
-  },
-	setVisibleModal: any,
+// ConnectorProps &
+
+type IModalWindow = {
+  visibleModal: any;
+  setVisibleModal: any;
+  video: any;
+  index: number;
+	actionEditFavorites?: any;
+	favorites?: any;
+	forceUpdate: any;
 }
 
 interface ITypeOfSort {
-  value: string,
-  title: string,
+	value: string;
+	title: string;
 }
 
 const typeOfSort: Array<ITypeOfSort> = [
-  {
-    value: 'date',
-    title: 'Дате'
-  },
-  {
-    value: 'rating',
-    title: 'Рейтингу'
-  },
-  {
-    value: 'relevance',
-    title: 'Релевантности'
-  },
-  {
-    value: 'title',
-    title: 'Заголовку'
-  },
-  {
-    value: 'videoCount',
-    title: 'Количеству видео'
-  },
-  {
-    value: 'viewCount',
-    title: 'Количеству просмотров'
-  }
+	{
+		value: 'date',
+		title: 'Дате'
+	},
+	{
+		value: 'rating',
+		title: 'Рейтингу'
+	},
+	{
+		value: 'relevance',
+		title: 'Релевантности'
+	},
+	{
+		value: 'title',
+		title: 'Заголовку'
+	},
+	{
+		value: 'videoCount',
+		title: 'Количеству видео'
+	},
+	{
+		value: 'viewCount',
+		title: 'Количеству просмотров'
+	}
 ];
 
 interface IFavorites {
-	q: string,
-	name: null | string,
-	order: string | null,
-	countOfVideos: number | undefined,
-};
+	q: string;
+	name: null | string;
+	order: string | null;
+	countOfVideos: number | undefined;
+}
 
-const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
+const ModalWindowF: FC<IModalWindow> = ({
+	actionEditFavorites,
 	visibleModal,
 	setVisibleModal,
-	q,
-	countOfVideos,
-	actionSaveFavorites,
+	video,
+	index,
+	forceUpdate,
+	favorites,
 }) => {
-	const [inputValue, setInputValue] = useState(12);
-	const [order, setOrder]: [string, any] = useState('relevance');
+	const modalForceUpdate = useForceUpdate();
 
+	const [inputValue, setInputValue] = useState(video.countOfVideos);
+	const [orderState, setOrderState] = useState(video.order);
+
+	const refQuery = useRef<Input>(null);
 	const refName = useRef<Input>(null);
 	const refInputNumber = useRef<InputNumber>(null);
 
-	let favorites: IFavorites = {
-		q,
-		name: null,
-		order: 'relevance',
-		countOfVideos
-	};
-
-	useEffect(() => {
-		console.log(store.getState());
-	})
-
 	return (
 		<Modal
-			visible={visibleModal.visible}
+			visible={visibleModal[index]}
 			centered={true}
 			className="modalWindow"
-			onCancel={() => setVisibleModal({ visible: false, clicked: false })}
+			afterClose={() => forceUpdate()}
+			onCancel={() => {
+				const tempArr = visibleModal;
+				tempArr[index] = false;
+				setVisibleModal(tempArr);
+				modalForceUpdate();
+			}}
 			footer={null}
-			destroyOnClose={true}
 			closable={false}
 		>
 			<Form className="form">
@@ -96,14 +99,19 @@ const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
 
 				<Item className="form__queryBlock queryBlock">
 					<Title className="queryBlock__title">Запрос</Title>
-					<Input className="queryBlock__input" defaultValue={q} disabled />
+					<Input className="queryBlock__input" ref={refQuery} defaultValue={video.q} />
 				</Item>
 
 				<Item className="form__nameOfQueryBlock nameOfQueryBlock">
 					<Title className="nameOfQueryBlock__title">
 						<span style={{ color: 'red' }}>*</span> Название
 					</Title>
-					<Input className="nameOfQueryBlock__input" placeholder="Укажите название" ref={refName} />
+					<Input
+						className="nameOfQueryBlock__input"
+						defaultValue={video.name}
+						placeholder="Укажите название"
+						ref={refName}
+					/>
 				</Item>
 
 				<Item className="form__typeOfSortBlock typeOfSortBlock">
@@ -112,8 +120,8 @@ const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
 						className="typeOfSortBlock__input"
 						placeholder="Без сортировки"
 						size="large"
-						defaultValue="relevance"
-						onChange={(value: string) => setOrder(value)}
+						defaultValue={video.order}
+						onChange={(value: string) => setOrderState(value)}
 					>
 						{typeOfSort.map(({ value, title }: ITypeOfSort, index: number) => (
 							<Option value={value} key={index.toString()}>
@@ -131,9 +139,7 @@ const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
 								className="slider"
 								min={1}
 								max={50}
-								onChange={(value) => {
-									setInputValue(Number(value));
-								}}
+								onChange={(value) => setInputValue(Number(value))}
 								value={typeof inputValue === 'number' ? inputValue : 1}
 							/>
 						</Col>
@@ -144,9 +150,7 @@ const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
 								max={50}
 								style={{ marginLeft: 16 }}
 								value={inputValue}
-								onChange={(value) => {
-									setInputValue(Number(value));
-								}}
+								onChange={(value) => setInputValue(Number(value))}
 								ref={refInputNumber}
 								type="number"
 								size="large"
@@ -162,7 +166,10 @@ const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
 								ghost
 								className="cancelButton"
 								onClick={() => {
-									setVisibleModal(false);
+									const tempArr = visibleModal;
+									tempArr[index] = false;
+									setVisibleModal(tempArr);
+									modalForceUpdate();
 								}}
 							>
 								Не сохранять
@@ -173,18 +180,22 @@ const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
 								type="primary"
 								className="saveButton"
 								onClick={() => {
-									favorites = {
-										...favorites,
+									let obj = {
+										order: orderState,
 										name: refName.current!.state.value,
-										countOfVideos: refInputNumber.current!.props.value,
-										order
+										countOfVideos: inputValue,
+										q: refQuery.current!.state.value
 									};
-									actionSaveFavorites(favorites);
-									setVisibleModal({ visible: false, clicked: true });
-									setTimeout(() => setVisibleModal({ visible: false, clicked: false }), 2500);
+
+									actionEditFavorites(obj, favorites.length - index - 1);
+
+									const tempArr = visibleModal;
+									tempArr[index] = false;
+									setVisibleModal(tempArr);
+									modalForceUpdate();
 								}}
 							>
-								Сохранить
+								Изменить
 							</Button>
 						</Col>
 					</Row>
@@ -194,4 +205,4 @@ const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
 	);
 };
 
-export default connector(ModalWindow);
+export default connector(ModalWindowF);
