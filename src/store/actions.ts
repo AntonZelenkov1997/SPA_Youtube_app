@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { IInitialStateSearch } from './searchComponent/types';
 import actionSaveSearchQuery from "./searchComponent/actions";
 import { IInitialStateStatistics } from './youtubeStatistics/types';
-import actionGetVideoStatistics from './youtubeStatistics/actions';
+import { actionGetVideoStatistics, actionResetVideoStatistics } from './youtubeStatistics/actions';
 import { actionSaveFavorites, actionDeleteFavorites, actionEditFavorites } from './favorites/actions';
 
 interface IState {
@@ -25,6 +25,7 @@ const mapDispatchToProps: any = {
 	actionSaveFavorites,
 	actionEditFavorites,
 	actionDeleteFavorites,
+	actionResetVideoStatistics,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

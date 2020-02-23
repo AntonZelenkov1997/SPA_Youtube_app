@@ -1,15 +1,17 @@
 import axios from 'axios';
 import API_KEY from '../models/api_key';
 import actionSaveSearchQuery from './searchComponent/actions';
-import actionGetVideoStatistics from './youtubeStatistics/actions';
+import { actionGetVideoStatistics, actionResetVideoStatistics} from './youtubeStatistics/actions';
 import store from './store';
 
 const asyncActionGetSearchAndStatistics = (q: string): any => {
 	return async (dispatch: any) => {
 		try {
+
+			dispatch(actionResetVideoStatistics());
+
 			const responseSearchQuery = await axios.get(
-				`https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&maxResults=5&q=${q}&key=${API_KEY}`
-				/*`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${countOfVideos}&order=${order}&q=${q}&type=video&key=${API_KEY}`*/
+				`https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&maxResults=1&q=${q}&key=${API_KEY}`
 			);
 
 			const objForAnswer = {
@@ -48,7 +50,6 @@ const asyncActionGetSearchAndStatistics = (q: string): any => {
 			arrayOfStatistics = await responseStatisctics().then((response) => response);
 
 			dispatch(actionGetVideoStatistics(arrayOfStatistics));
-			console.log(store.getState());
 			return Promise.all([objForAnswer, arrayOfStatistics]);
 		} catch (err) {
 			throw err;
@@ -69,9 +70,9 @@ const asyncActionGetSearchAndStatistics = (q: string): any => {
 const asyncCompleteFavorites = (index: number): any => {
 	const { q, order, countOfVideos } = store.getState().saveFavorites[index];
 
-
 	return async (dispatch: any) => {
 		try {
+			dispatch(actionResetVideoStatistics());
 			const responseSearchQuery = await axios.get(
 				`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${countOfVideos}&order=${order}&q=${q}&type=video&key=${API_KEY}`
 			);
@@ -110,7 +111,6 @@ const asyncCompleteFavorites = (index: number): any => {
 			arrayOfStatistics = await responseStatisctics().then((response) => response);
 
 			dispatch(actionGetVideoStatistics(arrayOfStatistics));
-			console.log(store.getState());
 			return Promise.all([objForAnswer, arrayOfStatistics]);
 		} catch (err) {
 			throw err;

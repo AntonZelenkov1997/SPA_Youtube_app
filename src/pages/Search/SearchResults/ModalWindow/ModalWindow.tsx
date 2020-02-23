@@ -1,8 +1,7 @@
-import React, { FC, useState, useRef, useEffect } from 'react';
+import React, { FC, useState, useRef } from 'react';
 import { Modal, Form, Typography, Input, Select, Row, Col, Slider, InputNumber, Button } from 'antd';
 import connector from '../../../../store/actions';
 import { ConnectorProps } from '../../../../models/types';
-import store from '../../../../store/store';
 
 const { Item } = Form;
 const { Title } = Typography;
@@ -75,18 +74,14 @@ const ModalWindow: FC<IModalWindow & ConnectorProps> = ({
 		countOfVideos
 	};
 
-	useEffect(() => {
-		console.log(store.getState());
-	})
-
 	return (
 		<Modal
 			visible={visibleModal.visible}
 			centered={true}
+			destroyOnClose={true}
 			className="modalWindow"
 			onCancel={() => setVisibleModal({ visible: false, clicked: false })}
 			footer={null}
-			destroyOnClose={true}
 			closable={false}
 		>
 			<Form className="form">

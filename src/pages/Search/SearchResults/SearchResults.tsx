@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { asyncActionGetSearchAndStatistics } from '../../../store/actionsThunk';
 import VideosComponentGrid from './VideosComponent/VideosComponent';
 import connector from '../../../store/actions';
-import { ConnectorProps } from '../../../models/types';
 import store from '../../../store/store';
 import ModalWindow from './ModalWindow/ModalWindow';
 import VideosComponentList from './VideosComponent/VideosComponentList';
@@ -13,7 +12,14 @@ const { Search } = Input;
 const { Title } = Typography;
 const { Footer } = Layout;
 
-const popoverContent = (
+type SearchResultsProps = {
+	setSpin: any;
+	totalResults?: number;
+	q?: string;
+	statistics?: Array<number> | null;
+}
+
+const PopoverContent: FC = () => (
 	<Typography>
 		<Title className="popoverTitle">Поиск сохранен в разделе «Избранное»</Title>
 		<Link to="/favorites">
@@ -22,26 +28,30 @@ const popoverContent = (
 	</Typography>
 );
 
-const SearchResults: FC<ConnectorProps> = ({ totalResults, q }) => {
+const SearchResults: FC<SearchResultsProps> = ({ totalResults, q, setSpin, statistics }) => {
 	const [activeFilter, setActiveFilter] = useState({
 		filterBars: false,
-		filterAppStore: true,
+		filterAppStore: true
 	});
 	const [visibleModal, setVisibleModal] = useState({
 		visible: false,
-		clicked: false,
+		clicked: false
 	});
-	
+
 	const modalWindowProps = {
 		visibleModal,
-		setVisibleModal,
+		setVisibleModal
 	};
 
 	const { filterBars, filterAppStore } = activeFilter;
 
+	if (!statistics) {
+		setSpin(true);
+		return <div style={{ height: '100vh', width: '100vw' }} />;
+	} else setSpin(false);
+	
 		return (
 			<>
-				<ModalWindow {...modalWindowProps} />
 				<Row className="rowFirst">
 					<Col className="columnFirst" span={4} />
 
@@ -57,7 +67,7 @@ const SearchResults: FC<ConnectorProps> = ({ totalResults, q }) => {
 								suffix={
 									<Popover
 										placement="bottom"
-										content={popoverContent}
+										content={<PopoverContent />}
 										visible={visibleModal.clicked}
 										className="popover"
 									>
@@ -70,12 +80,13 @@ const SearchResults: FC<ConnectorProps> = ({ totalResults, q }) => {
 									</Popover>
 								}
 								onSearch={(q) => {
+									setSpin((prev: boolean) => !prev);
 									store
 										.dispatch(asyncActionGetSearchAndStatistics(q))
-										.then((resolve: any) => {
-											console.log('Ураааа, промис сработал:', resolve);
+										.then(() => {
+											console.log('Loading success!');
 										})
-										.catch((err: any) => console.log('Что-то пошло не так,', err));
+										.catch((err: any) => console.log('Loading failed,', err));
 								}}
 							/>
 						</div>
@@ -117,6 +128,7 @@ const SearchResults: FC<ConnectorProps> = ({ totalResults, q }) => {
 				</Row>
 				{filterBars ? <VideosComponentList /> : <VideosComponentGrid />}
 				<Footer />
+				<ModalWindow {...modalWindowProps} />
 			</>
 		);
 };

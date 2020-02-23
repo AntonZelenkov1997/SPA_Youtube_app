@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Row, Col, Typography, Button } from 'antd';
+import { Row, Col, Typography, Button, Spin } from 'antd';
 import { useHistory } from 'react-router-dom';
 import useForceUpdate from 'use-force-update';
 import HeaderSearch from '../../components/Header/Header';
@@ -18,6 +18,8 @@ const Favorites: FC<ConnectorProps> = ({ favorites, actionDeleteFavorites, }) =>
 	};	
 	
 	const [visibleModal, setVisibleModal] = useState(objVisible());
+	const [spin, setSpin] = useState(false)
+
 	const forceUpdate = useForceUpdate();
 
 	const history = useHistory();
@@ -26,7 +28,7 @@ const Favorites: FC<ConnectorProps> = ({ favorites, actionDeleteFavorites, }) =>
 	reverseArray = reverseArray.reverse();
 
 	return (
-		<>
+		<Spin size="large" tip="Загрузка..." spinning={spin}>
 			<HeaderSearch />
 			<Row className="rowFavorite">
 				<Col span={4} />
@@ -47,15 +49,20 @@ const Favorites: FC<ConnectorProps> = ({ favorites, actionDeleteFavorites, }) =>
 									<Typography className="wrapper__list">
 										<Title className="title">{video.q}</Title>
 										<div className="buttons">
-											<Button ghost className="buttons__execute" onClick={() => {
-												store
-													.dispatch(asyncCompleteFavorites(index))
-													.then((resolve: any) => {
-														console.log('Ураааа, промис сработал:', resolve);
-														history.push('/search');
-													})
-													.catch((err: any) => console.log('Что-то пошло не так,', err));;
-											}}>
+											<Button
+												ghost
+												className="buttons__execute"
+												onClick={() => {
+													setSpin((prev: boolean) => !prev);
+													store
+														.dispatch(asyncCompleteFavorites(index))
+														.then((resolve: any) => {
+															console.log('Ураааа, промис сработал:', resolve);
+															history.push('/search');
+														})
+														.catch((err: any) => console.log('Что-то пошло не так,', err));
+												}}
+											>
 												Выполнить
 											</Button>
 											<Button
@@ -91,7 +98,7 @@ const Favorites: FC<ConnectorProps> = ({ favorites, actionDeleteFavorites, }) =>
 				</Col>
 				<Col span={4} />
 			</Row>
-		</>
+		</Spin>
 	);
 };
 

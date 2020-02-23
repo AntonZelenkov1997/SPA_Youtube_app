@@ -1,14 +1,16 @@
 import React, { FC } from 'react';
 import { Layout, Input } from 'antd';
-import { ConnectorProps } from '../../../models/types';
-import connector from '../../../store/actions';
 import { asyncActionGetSearchAndStatistics } from '../../../store/actionsThunk';
 import store from '../../../store/store';
 
 const { Content } = Layout;
 const { Search } = Input;
 
-const SearchComponent: FC<ConnectorProps>= () => {
+type SearchComponentProps = {
+	setSpin: any;
+}
+
+const SearchComponent: FC<SearchComponentProps> = ({ setSpin }) => {
 	return (
 		<Content className="content">
 			<div className="container">
@@ -20,6 +22,7 @@ const SearchComponent: FC<ConnectorProps>= () => {
 						enterButton="Найти"
 						size="large"
 						onSearch={(q) => {
+							setSpin((prev: boolean) => !prev);
 							store
 								.dispatch(asyncActionGetSearchAndStatistics(q))
 								.then((resolve: any) => {
@@ -35,4 +38,4 @@ const SearchComponent: FC<ConnectorProps>= () => {
 };
 
 
-export default connector(SearchComponent);
+export default SearchComponent;

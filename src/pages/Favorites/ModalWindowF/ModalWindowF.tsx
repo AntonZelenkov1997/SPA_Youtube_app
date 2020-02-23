@@ -2,13 +2,10 @@ import React, { FC, useState, useRef } from 'react';
 import { Modal, Form, Typography, Input, Select, Row, Col, Slider, InputNumber, Button } from 'antd';
 import useForceUpdate from 'use-force-update';
 import connector from '../../../store/actions';
-import store from '../../../store/store';
 
 const { Item } = Form;
 const { Title } = Typography;
 const { Option } = Select;
-
-// ConnectorProps &
 
 type IModalWindow = {
   visibleModal: any;

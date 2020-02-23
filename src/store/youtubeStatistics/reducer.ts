@@ -1,4 +1,4 @@
-import ACTION_GET_VIDEO_STATISTICS from './actionTypes';
+import { ACTION_GET_VIDEO_STATISTICS, ACTION_RESET_VIDEO_STATISTICS } from './actionTypes';
 import { IInitialStateStatistics } from './types';
 import { actionType } from './types';
 
@@ -10,6 +10,8 @@ const getVideoStatisticsReducer = (state = initialState, action: actionType): II
 	switch (action.type) {
 		case ACTION_GET_VIDEO_STATISTICS:
 			return { ...state, statistics: action.payload };
+		case ACTION_RESET_VIDEO_STATISTICS:
+			return { ...state, statistics: action.payload }
 		default:
 			return state;
 	}
