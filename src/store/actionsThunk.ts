@@ -11,17 +11,23 @@ const asyncActionGetSearchAndStatistics = (q: string): any => {
 			dispatch(actionResetVideoStatistics());
 
 			const responseSearchQuery = await axios.get(
-				`https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&maxResults=1&q=${q}&key=${API_KEY}`
+				`https://www.googleapis.com/youtube/v3/search?type=video&part=snippet&maxResults=12&q=${q}&key=${API_KEY}`
 			);
+
+			const parserTitle = (title: string) => {
+				title = title.replace(/&#39;/g, `'`);
+				title = title.replace(/&quot;/g, `"`);
+				return title;
+			}
 
 			const objForAnswer = {
 				q,
 				totalResults: responseSearchQuery.data.pageInfo.totalResults,
 				videos: responseSearchQuery.data.items.map((value: any) => ({
 					videoId: value.id.videoId,
-					title: value.snippet.title.replace('&#39;', `'`),
+					title: parserTitle(value.snippet.title),
 					channelTitle: value.snippet.channelTitle,
-					img: value.snippet.thumbnails.medium.url,
+					img: value.snippet.thumbnails.medium.url
 				}))
 			};
 
@@ -77,12 +83,18 @@ const asyncCompleteFavorites = (index: number): any => {
 				`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=${countOfVideos}&order=${order}&q=${q}&type=video&key=${API_KEY}`
 			);
 
+			const parserTitle = (title: string) => {
+				title = title.replace(/&#39;/g, `'`);
+				title = title.replace(/&quot;/g, `"`);
+				return title;
+			};
+
 			const objForAnswer = {
 				q,
 				totalResults: responseSearchQuery.data.pageInfo.totalResults,
 				videos: responseSearchQuery.data.items.map((value: any) => ({
 					videoId: value.id.videoId,
-					title: value.snippet.title.replace('&#39;', `'`),
+					title: parserTitle(value.snippet.title),
 					channelTitle: value.snippet.channelTitle,
 					img: value.snippet.thumbnails.medium.url
 				}))

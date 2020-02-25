@@ -25,8 +25,8 @@ const SearchComponent: FC<SearchComponentProps> = ({ setSpin }) => {
 							setSpin((prev: boolean) => !prev);
 							store
 								.dispatch(asyncActionGetSearchAndStatistics(q))
-								.then((resolve: any) => {
-									console.log('Ураааа, промис сработал:', resolve);
+								.then(() => {
+									console.log('Loading success!');
 								})
 								.catch((err: any) => console.log('Что-то пошло не так,', err));
 						}}

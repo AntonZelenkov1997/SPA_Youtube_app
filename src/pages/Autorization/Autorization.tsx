@@ -3,13 +3,14 @@ import {
   Layout, Form, Input, Button, Row, Col, Typography, Icon,
 } from 'antd';
 import logo from '../../assets/autorization/sibdev-logo.png';
+import updateMainComponent from '../../models/updateMainComponent';
 
 const { Content } = Layout;
 const { Title } = Typography;
 
 const Autorization: FC = () => {
   const [statusVisible, setStatusVisible] = useState(false);
-  const [blueColorIcon, setblueColorIcon] = useState(false);
+	const [blueColorIcon, setblueColorIcon] = useState(false);
 
   return (
 		<div className="page">
@@ -24,7 +25,15 @@ const Autorization: FC = () => {
 
 						<Col span={12} className="column-second">
 							<div className="container">
-								<Form className="form-autorization">
+								<Form
+									action="/search"
+									className="form-autorization"
+									onSubmit={(e) => {
+										e.preventDefault();
+										localStorage.setItem('isOnline', 'true');
+										updateMainComponent();
+									}}
+								>
 									<Form.Item className="form-autorization__logo">
 										<img src={logo} alt="Not found" />
 									</Form.Item>
@@ -50,18 +59,18 @@ const Autorization: FC = () => {
 												<Icon
 													type={statusVisible ? 'eye' : 'eye-invisible'}
 													onClick={() => {
-                            return setStatusVisible((prev) => !prev);
+														return setStatusVisible((prev) => !prev);
 													}}
 													className={blueColorIcon ? 'icon_active' : 'icon'}
-                          theme={blueColorIcon ? 'twoTone' : 'outlined'}
+													theme={blueColorIcon ? 'twoTone' : 'outlined'}
 												/>
 											}
 											type={statusVisible ? 'text' : 'password'}
-                      onFocus={() => {
-                        setblueColorIcon(true);
-                      }}
+											onFocus={() => {
+												setblueColorIcon(true);
+											}}
 											onBlur={() => {
-                        setblueColorIcon(false);
+												setblueColorIcon(false);
 											}}
 										/>
 									</Form.Item>

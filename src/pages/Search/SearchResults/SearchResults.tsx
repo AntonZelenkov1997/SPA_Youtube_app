@@ -17,6 +17,7 @@ type SearchResultsProps = {
 	totalResults?: number;
 	q?: string;
 	statistics?: Array<number> | null;
+	videos?: any;
 }
 
 const PopoverContent: FC = () => (
@@ -28,7 +29,7 @@ const PopoverContent: FC = () => (
 	</Typography>
 );
 
-const SearchResults: FC<SearchResultsProps> = ({ totalResults, q, setSpin, statistics }) => {
+const SearchResults: FC<SearchResultsProps> = ({ totalResults, q, setSpin, statistics, videos }) => {
 	const [activeFilter, setActiveFilter] = useState({
 		filterBars: false,
 		filterAppStore: true

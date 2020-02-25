@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Layout } from 'antd';
 import logo from '../../assets/autorization/sibdev-logo.png';
+import updateMainComponent from '../../models/updateMainComponent';
 
 const { Header } = Layout;
 
@@ -30,9 +31,15 @@ const HeaderBlock: FC = () => {
 					</Link>
 				</div>
 				<div className="rightSide">
-					<Link to="/exit">
-						<div className="rightSide__exit">Выйти</div>
-					</Link>
+					<div
+						className="rightSide__exit"
+						onClick={() => {
+							localStorage.setItem('isOnline', 'false');
+							updateMainComponent();
+						}}
+					>
+						Выйти
+					</div>
 				</div>
 			</div>
 		</Header>

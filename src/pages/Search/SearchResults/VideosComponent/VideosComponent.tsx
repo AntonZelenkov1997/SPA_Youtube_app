@@ -16,22 +16,24 @@ const VideosGridComponent: FC<ConnectorProps> = ({ videos, statistics }) => {
 
 		countOfColumns.push(
 			<Col className="column" span={4} key={Math.random()}>
-				<QueueAnim key="demos" type={['right', 'left']} ease={['easeOutQuart', 'easeInOutQuart']}>
-					<div className="wrapper" key={Math.random()}>
-						<img src={video.img} alt="Not found" className="wrapper__img" />
-						<Title className="wrapper__title">
-							{video.title.length > 30 ? `${video.title.slice(0, 30)}...` : video.title}
-						</Title>
-						<Title className="wrapper__channelTitle">
-							{video.channelTitle.length > 30
-								? `${video.channelTitle.slice(0, 30)}...`
-								: video.channelTitle}
-						</Title>
-						<Title className="wrapper__statistics">
-							<ShowStatistics nmb={statistics[index]} />
-						</Title>
-					</div>
-				</QueueAnim>
+				<a href={`https://www.youtube.com/watch?v=${video.videoId}`}>
+					<QueueAnim key="demos" type={['right', 'left']} ease={['easeOutQuart', 'easeInOutQuart']}>
+						<div className="wrapper" key={Math.random()}>
+							<img src={video.img} alt="Not found" className="wrapper__img" />
+							<Title className="wrapper__title">
+								{video.title.length > 30 ? `${video.title.slice(0, 30)}...` : video.title}
+							</Title>
+							<Title className="wrapper__channelTitle">
+								{video.channelTitle.length > 30
+									? `${video.channelTitle.slice(0, 30)}...`
+									: video.channelTitle}
+							</Title>
+							<Title className="wrapper__statistics">
+								<ShowStatistics nmb={statistics[index]} />
+							</Title>
+						</div>
+					</QueueAnim>
+				</a>
 			</Col>
 		);
 		

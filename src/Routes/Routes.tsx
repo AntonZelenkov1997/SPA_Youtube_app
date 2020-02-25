@@ -1,23 +1,28 @@
 import React, { FC } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Autorization from '../pages/Autorization/Autorization';
 import Search from '../pages/Search/Search';
 import Favorites from '../pages/Favorites/Favorites';
 
-const Routes: FC = () => (
-	<Router>
-		<Switch>
-			<Route exact path="/">
-				<Autorization />
-			</Route>
-			<Route path="/search">
-				<Search />
-			</Route>
-			<Route path="/favorites">
-				<Favorites />
-			</Route>
-		</Switch>
-	</Router>
-);
+const Routes: FC = () => {
+
+	let local: any = localStorage.getItem('isOnline');
+	
+	let isOnline = JSON.parse(local);
+
+	return (
+		<Router>
+			<Switch>
+				<Route exact path="/">
+					{isOnline ? <Redirect to="/search" /> : <Autorization />}
+				</Route>
+
+				<Route path="/search">{isOnline ? <Search /> : <Redirect to="/" />}</Route>
+
+				<Route path="/favorites">{isOnline ? <Favorites /> : <Redirect to="/" />}</Route>
+			</Switch>
+		</Router>
+	);
+};
 
 export default Routes;
